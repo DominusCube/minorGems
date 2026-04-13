@@ -2832,6 +2832,19 @@ void callbackMouse( int inButton, int inState, int inX, int inY ) {
         case SDL_BUTTON_WHEELDOWN:
             currentScreenGL->mLastMouseButton = MouseButton::WHEELDOWN;
             break;
+        case SDL_BUTTON_X1:
+            // back mouse button - keycode 31
+            // only fire on press, not release
+            if( inState == SDL_PRESSED ) {
+                callbackKeyboard( 31, inX, inY );
+                }
+            return;
+        case SDL_BUTTON_X2:
+            // forward mouse button — keycode 30
+            if( inState == SDL_PRESSED ) {
+                callbackKeyboard( 30, inX, inY );
+                }
+            return;
         default:
             currentScreenGL->mLastMouseButton = MouseButton::NONE;
             break;

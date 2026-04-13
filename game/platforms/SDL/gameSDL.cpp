@@ -26,6 +26,10 @@ int main( int inArgCount, char **inArgs ) {
 
 #include <SDL/SDL.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 
 
 #include "minorGems/graphics/openGL/ScreenGL.h"
@@ -4103,6 +4107,23 @@ char isAltKeyDown() {
     return false;
     }
 
+
+
+char isCapsLockDown() {
+    // SDL 1.2 caps lock handling is toggle-based at the SDL level:
+    // the key-release event is discarded inside SDL_PrivateKeyboard,
+    // so SDL_GetKeyState / SDL_GetModState both report toggle state,
+    // not whether the key is physically held right now.
+    // On Windows we bypass SDL and ask the OS directly.
+#ifdef WIN32
+    return ( GetAsyncKeyState( VK_CAPITAL ) & 0x8000 ) != 0;
+#else
+    // On Linux the kernel reports caps lock as a real press/release,
+    // so SDL_GetKeyState correctly reflects physical held state there.
+    Uint8 *keystate = SDL_GetKeyState( NULL );
+    return keystate[ SDLK_CAPSLOCK ] != 0;
+#endif
+    }
 
 
 char isShiftKeyDown() {

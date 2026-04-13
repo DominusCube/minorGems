@@ -292,6 +292,9 @@ char isAltKeyDown();
 // returns true if either right or left shift key is down
 char isShiftKeyDown();
 
+// returns true if Caps Lock is toggled on
+char isCapsLockDown();
+
 
 
 // toggle typing obscuring mode for event recording
